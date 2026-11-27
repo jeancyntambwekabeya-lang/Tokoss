@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TOKOSS - TikTok du Congo 🇨🇩</title>
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#000;color:#fff;font-family:Arial,sans-serif;overflow:hidden;height:100dvh}
+.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent)}
+.logo-top{display:flex;align-items:center;gap:8px}
+.logo-top b{font-size:22px;letter-spacing:1px}
+.logo-top b span{color:#fe2c55}
+.feed{height:calc(100dvh - 45px - 50px);overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
+.feed::-webkit-scrollbar{display:none}
+.slide{height:calc(100dvh - 45px - 50px);scroll-snap-align:start;position:relative;background:#000}
+.slide video{width:100%;height:100%;object-fit:cover}
+.overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 35%,transparent 60%,rgba(0,0,0,.3) 100%);pointer-events:none}
+.right-actions{position:absolute;right:10px;bottom:100px;display:flex;flex-direction:column;gap:16px;align-items:center;z-index:10}
+.act{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+.act .circle{width:48px;height:48px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid rgba(255,255,255,.3)}
+.act small{font-size:11px;font-weight:bold}
+.avatar{width:48px;height:48px;border-radius:50%;border:2px solid #fe2c55;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+.plus{width:20px;height:20px;background:#fe2c55;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:-12px;font-size:16px;border:2px solid #000;z-index:2}
+.info{position:absolute;left:12px;bottom:100px;right:70px;z-index:10}
+.info b{font-size:16px}
+.info p{font-size:13px;line-height:1.4;margin-top:6px;color:#eee}
+.music{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px}
+.music span{animation:spin 3s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.liked{color:#fe2c55 !important}
+.banner-ad{height:50px;background:#111;border-top:1px solid #222;display:flex;align-items:center;justify-content:center;position:fixed;left:0;right:0;bottom:45px;z-index:30}
+.banner-ad .ad-box{width:320px;height:50px;background:#1a1a1a;border:1px dashed #444;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#888;text-align:center;line-height:1.3}
+.bottom{position:fixed;bottom:0;left:0;right:0;height:45px;background:#000;border-top:1px solid #222;display:flex;justify-content:space-around;align-items:center;z-index:40}
+.bottom button{background:none;border:none;color:#999;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer}
+.bottom button.active{color:#fff}
+.bottom .center{width:42px;height:26px;background:#fff;border-radius:8px;color:#000;font-size:20px;font-weight:bold;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+
+<!-- LOGO TOKOSS DESSINÉ DEDANS : NOIR + NOTE ROSE/BLEU + ÉTOILE OR + DRAPEAU CONGO -->
+<svg width="0" height="0" style="position:absolute"><defs>
+<linearGradient id="tokossGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fe2c55"/><stop offset="100%" stop-color="#25f4ee"/></linearGradient>
+<symbol id="logoTokoss" viewBox="0 0 100 100">
+<rect width="100" height="100" rx="22" fill="#000"/>
+<text x="50" y="52" font-size="42" text-anchor="middle" fill="url(#tokossGrad)">♪</text>
+<text x="50" y="30" font-size="18" text-anchor="middle" fill="#FFD700">★</text>
+<rect x="28" y="70" width="44" height="18" rx="3" fill="#007FFF"/>
+<rect x="28" y="70" width="44" height="6" fill="#FCD116"/>
+<text x="50" y="84" font-size="8" text-anchor="middle" fill="#fff" font-weight="bold">🇨🇩</text>
+</symbol>
+</defs></svg>
+
+<div class="top">
+  <div class="logo-top"><svg width="32" height="32" style="border-radius:8px"><use href="#logoTokoss"/></svg><b>TO<span>KOSS</span></b></div>
+  <div style="display:flex;gap:16px;font-size:14px;font-weight:bold"><span style="color:#fff;border-bottom:2px solid #fff;padding-bottom:2px">Pour Toi</span><span style="color:#aaa">Suivis</span></div>
+  <div style="font-size:20px">🔍</div>
+</div>
+
+<div class="feed" id="feed">
+  <div class="slide">
+    <video src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" loop muted autoplay playsinline onclick="this.paused?this.play():this.pause()"></video>
+    <div class="overlay"></div>
+    <div class="right-actions">
+      <div class="act"><div class="avatar"><svg width="40" height="40"><use href="#logoTokoss"/></svg></div><div class="plus">+</div></div>
+      <div class="act" onclick="like(this)"><div class="circle">❤️</div><small>12.4K</small></div>
+      <div class="act"><div class="circle">💬</div><small>845</small></div>
+      <div class="act"><div class="circle">↗️</div><small>2.1K</small></div>
+      <div class="act"><div class="circle">🎁</div><small>Cadeau</small></div>
+      <div class="act"><div class="circle">🔖</div><small>Save</small></div>
+    </div>
+    <div class="info"><b>@Fally_Lubumbashi 🇨🇩</b><p>Tokoss na Lubumbashi ! Danse ya ba congolais 🔥 #tokoss #congo #lubumbashi</p><div class="music"><span>💿</span> Son original - Tokoss Beat</div></div>
+  </div>
+  <div class="slide">
+    <video src="https://cdn.coverr.co/videos/coverr-dancing-in-the-street-1568/1080p.mp4" loop muted playsinline onclick="this.paused?this.play():this.pause()"></video>
+    <div class="overlay"></div>
+    <div class="right-actions">
+      <div class="act"><div class="avatar"><svg width="40" height="40"><use href="#logoTokoss"/></svg></div><div class="plus">+</div></div>
+      <div class="act" onclick="like(this)"><div class="circle">❤️</div><small>8.9K</small></div>
+      <div class="act"><div class="circle">💬</div><small>412</small></div>
+      <div class="act"><div class="circle">↗️</div><small>980</small></div>
+      <div class="act"><div class="circle">🎁</div><small>Cadeau</small></div>
+      <div class="act"><div class="circle">🔖</div><small>Save</small></div>
+    </div>
+    <div class="info"><b>@Sarah_Kinshasa 🇨🇩</b><p>Kinshasa ezo buka ! Qui connait cette danse ? 😍 #kinshasa #ndombolo</p><div class="music"><span>💿</span> Ndombolo 2026 - Sarah</div></div>
+  </div>
+  <div class="slide">
+    <video src="https://cdn.coverr.co/videos/coverr-a-man-skateboarding-1557/1080p.mp4" loop muted playsinline onclick="this.paused?this.play():this.pause()"></video>
+    <div class="overlay"></div>
+    <div class="right-actions">
+      <div class="act"><div class="avatar"><svg width="40" height="40"><use href="#logoTokoss"/></svg></div><div class="plus">+</div></div>
+      <div class="act" onclick="like(this)"><div class="circle">❤️</div><small>25K</small></div>
+      <div class="act"><div class="circle">💬</div><small>1.2K</small></div>
+      <div class="act"><div class="circle">↗️</div><small>5K</small></div>
+      <div class="act"><div class="circle">🎁</div><small>Cadeau</small></div>
+      <div class="act"><div class="circle">🔖</div><small>Save</small></div>
+    </div>
+    <div class="info"><b>@Junior_Kolwezi 🇨🇩</b><p>Kolwezi on est là ! 💪 #kolwezi #tokoss #katanga</p><div class="music"><span>💿</span> Beat Katanga - Junior</div></div>
+  </div>
+</div>
+
+<div class="banner-ad"><div class="ad-box">PUBLICITÉ<br>Ta bannière AdMob ici - 320x50</div></div>
+
+<div class="bottom">
+  <button class="active"><span style="font-size:18px">🏠</span>Accueil</button>
+  <button><span style="font-size:18px">👥</span>Amis</button>
+  <button onclick="document.getElementById('file').click()"><div class="center">+</div></button>
+  <input type="file" id="file" accept="video/*" hidden onchange="alert('Vidéo reçue ! On va la publier bientôt')">
+  <button><span style="font-size:18px">💬</span>Boîte</button>
+  <button><span style="font-size:18px">👤</span>Moi</button>
+</div>
+
+<script>
+// MANIFEST + LOGO + PWA TOUT DANS LE MEME FICHIER
+let svgLogo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#000"/><text x="50" y="52" font-size="42" text-anchor="middle" fill="#fe2c55">♪</text><text x="50" y="30" font-size="18" text-anchor="middle" fill="#FFD700">★</text><rect x="28" y="70" width="44" height="18" rx="3" fill="#007FFF"/><rect x="28" y="70" width="44" height="6" fill="#FCD116"/></svg>`;
+let logoUrl = 'data:image/svg+xml,' + encodeURIComponent(svgLogo);
+let manifest = {"name":"TOKOSS - TikTok du Congo","short_name":"TOKOSS","display":"standalone","background_color":"#000000","theme_color":"#000000","orientation":"portrait","icons":[{"src":logoUrl,"sizes":"512x512","type":"image/svg+xml"}]};
+let blob = new Blob([JSON.stringify(manifest)],{type:'application/json'});
+let link = document.createElement('link'); link.rel='manifest'; link.href=URL.createObjectURL(blob); document.head.appendChild(link);
+function like(el){let c=el.querySelector('.circle');c.classList.toggle('liked');c.style.background=c.classList.contains('liked')?'#fe2c55':'rgba(255,255,255,.15)';}
+let feed=document.getElementById('feed');let videos=document.querySelectorAll('video');
+feed.addEventListener('scroll',()=>{videos.forEach(v=>{let r=v.getBoundingClientRect();if(r.top>=0&&r.top<window.innerHeight/2){v.play()}else{v.pause()}})});
+</script>
+</body>
+</html>
